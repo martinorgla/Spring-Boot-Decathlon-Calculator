@@ -31,17 +31,17 @@ public class DecathlonService {
      * Calculate points by Sport
      */
     private int calculatePointsBySport (EventResultDto eventResultDto) {
-        DecathlonEvent decathlonEvent = DecathlonEvent.valueOf(eventResultDto.getEventId());
+        try {
+            DecathlonEvent decathlonEvent = DecathlonEvent.valueOf(eventResultDto.getEventId());
 
-        if (decathlonEvent.getName() == null) {
+            if (decathlonEvent.getSportType().equals(SportType.TRACK)) {
+                return this.calculateTrackPoints(decathlonEvent, eventResultDto);
+            }
+            else {
+                return this.calculateFieldPoints(decathlonEvent, eventResultDto);
+            }
+        } catch (IllegalArgumentException ex) {
             throw new IllegalArgumentException("Unknown sport " + eventResultDto.getEventId());
-        }
-
-        if (decathlonEvent.getSportType().equals(SportType.TRACK)) {
-            return this.calculateTrackPoints(decathlonEvent, eventResultDto);
-        }
-        else {
-            return this.calculateFieldPoints(decathlonEvent, eventResultDto);
         }
     }
 
