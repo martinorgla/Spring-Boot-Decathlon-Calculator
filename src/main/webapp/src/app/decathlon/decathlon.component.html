@@ -1,0 +1,24 @@
+<form (ngSubmit)="onSubmit()" #formInput="ngForm">
+  <mat-grid-list cols="1" rowHeight="100px" align="center">
+    <mat-grid-tile>
+      <h1 *ngIf="this?.points?.points">Total Points: {{ this?.points?.points }}!</h1>
+    </mat-grid-tile>
+  </mat-grid-list>
+  <mat-grid-list cols="4" rowHeight="100px">
+    <mat-grid-tile>
+      <img alt="Erko Nool" height="300" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/IRL_Erki_Nool.jpg/800px-IRL_Erki_Nool.jpg">
+    </mat-grid-tile>
+    <mat-grid-tile *ngFor="let sport of sports">
+        <mat-form-field appearance="standard" [hideRequiredMarker]="true">
+          <mat-label>{{ sport.name }}</mat-label>
+          <input name="{{ sport.id }}" type="text" matInput placeholder="Enter result for {{ sport.name }}" [(ngModel)]="formObject[sport.id]" autocomplete="off">
+        </mat-form-field>
+    </mat-grid-tile>
+    <mat-grid-tile>
+        <button mat-raised-button color="primary">Calculate!</button>
+    </mat-grid-tile>
+  </mat-grid-list>
+</form>
+
+<br />
+<!--{{ diagnostic }}-->

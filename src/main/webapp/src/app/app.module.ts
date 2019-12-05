@@ -4,16 +4,23 @@ import { AppRoutingModule } from './app-routing.module';
 import { MatButtonModule, MatFormFieldModule, MatInputModule } from '@angular/material';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DecathlonComponent } from './decathlon/decathlon.component';
+import { HttpClientModule } from "@angular/common/http";
+import {MatGridListModule} from "@angular/material/grid-list";
+import {FormsModule} from "@angular/forms";
+import {MatTableModule} from "@angular/material/table";
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    DecathlonComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MatFormFieldModule, MatButtonModule, MatInputModule
+    MatFormFieldModule, MatButtonModule, MatInputModule,
+    HttpClientModule, MatGridListModule, FormsModule, MatTableModule
   ],
   providers: [],
   bootstrap: [AppComponent]
