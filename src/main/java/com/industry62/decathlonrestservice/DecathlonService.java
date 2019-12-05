@@ -20,8 +20,8 @@ public class DecathlonService {
      * Calculate points
      */
     public DecathlonResultDto calculatePoints (List<EventResultDto> eventResults) {
-        for (int i = 0; i < eventResults.size(); i++) {
-            eventResults.get(i).setPoints(calculatePointsBySport(eventResults.get(i)));
+        for (EventResultDto eventResult : eventResults) {
+            eventResult.setPoints(calculatePointsBySport(eventResult));
         }
 
         return new DecathlonResultDto(eventResults);
