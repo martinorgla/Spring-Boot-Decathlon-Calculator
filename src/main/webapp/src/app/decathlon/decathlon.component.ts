@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 import {DecathlonService} from "../service/decathlon.service";
 import {Subscription} from "rxjs";
 import {Sport} from "../models/sport.model";
@@ -10,14 +10,15 @@ import {Points} from "../models/points.model";
   templateUrl: './decathlon.component.html',
   styleUrls: ['./decathlon.component.scss']
 })
-export class DecathlonComponent implements OnInit {
+export class DecathlonComponent implements OnInit, OnDestroy {
   sportSubscription: Subscription;
   calculatePointsSubscription: Subscription;
 
   public points: Points;
   public sports: Sport;
-  public formObject = new Object();
-  public resultArray = new Array();
+  public formObject = {};
+  public resultArray = [];
+  public results = [];
 
   constructor(
     private decathlonService: DecathlonService
@@ -34,47 +35,71 @@ export class DecathlonComponent implements OnInit {
     this.sportSubscription = this.decathlonService.getSports().subscribe(
       (data) => {
        this.sports = data;
-
-       for(let sportId of Object.keys(this.sports)){
-         this.formObject[this.sports[sportId].valueOf().id] = 0;
-       }
       });
   }
 
   onSubmit () {
-    let results = new Array();
+    this.results.length = 0;
 
-    for (let resultKey of Object.keys(this.formObject)) {
-      results.push(new EventResult(resultKey, this.formObject[resultKey]));
-    }
+    Object.keys(this.formObject).forEach(result => this.results.push(new EventResult(result, this.formObject[result])));
 
-    this.calculatePointsSubscription = this.decathlonService.calculatePoints(JSON.stringify(results)).subscribe(
+    this.calculatePointsSubscription = this.decathlonService.calculatePoints(JSON.stringify(this.results)).subscribe(
       (data) => {
         this.points = data;
 
-        console.log();
+        console.log(this.points);
 
-        this.points.eventResultDto.forEach(eventResultDro => this.resultArray[eventResultDro.eventId] = eventResultDro.points);
-
-        console.log(this.resultArray);
-
-
-        for (let eventResultDto of Object.keys(this.points.eventResultDto)) {
-          // results.push(new EventResult(resultKey, this.formObject[resultKey]));
-          // resultArray[resultDtoKey] = this.points.eventResultDto[resultDtoKey],v
-        }
-
-
-
-        // this.formObject[this.sports[sportId].valueOf().id] = 0;
-
-
-        // alert(this.points.points);
+        this.points.eventResultDto.forEach(eventResultDto => this.resultArray[eventResultDto.eventId] = eventResultDto.points);
       }
     )
   }
 
-  get diagnostic() {
-    return JSON.stringify(this.formObject);
+  // Erki Nool results for 8667 points!
+  // https://en.wikipedia.org/wiki/1998_European_Athletics_Championships_%E2%80%93_Men%27s_decathlon
+  onErkiNool () {
+    this.formObject = {
+      "M100": 10.58,
+      "LONG_JUMP": 780,
+      "SHOT_PUT": 14.40,
+      "HIGH_JUMP": 197,
+      "M400": 46.67,
+      "M110_HURDLES": 14.68,
+      "DISCUS_THROW": 40.79,
+      "POLE_VAULT": 540,
+      "JAVELIN_THROW": 70.65,
+      "M1500": 278
+    };
+
+    this.onSubmit();
+  }
+
+  // Reset formObject by pressing ESC on keyboard
+  @HostListener('document:keydown.escape', ['$event']) onKeydownHandler(event: KeyboardEvent) {
+    this.formObject = {
+      "M100": null,
+      "LONG_JUMP": null,
+      "SHOT_PUT": null,
+      "HIGH_JUMP": null,
+      "M400": null,
+      "M110_HURDLES": null,
+      "DISCUS_THROW": null,
+      "POLE_VAULT": null,
+      "JAVELIN_THROW": null,
+      "M1500": null
+    };
+
+    if (this.points.points > 0) {
+      this.points.points = 0;
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.sportSubscription) {
+      this.sportSubscription.unsubscribe();
+    }
+
+    if (this.calculatePointsSubscription) {
+      this.calculatePointsSubscription.unsubscribe();
+    }
   }
 }
