@@ -20,6 +20,12 @@ public class DecathlonController {
     }
 
     @CrossOrigin
+    @GetMapping("/results")
+    public Collection<DecathlonResultDto> getResults() {
+        return decathlonService.getResults();
+    }
+
+    @CrossOrigin
     @PostMapping(path = "/calculatepoints")
     public DecathlonResultDto calculatePoints(@RequestBody List<EventResultDto> eventResults) {
         return decathlonService.calculatePoints(eventResults);

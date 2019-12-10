@@ -13,12 +13,14 @@ import {Points} from "../models/points.model";
 export class DecathlonComponent implements OnInit, OnDestroy {
   sportSubscription: Subscription;
   calculatePointsSubscription: Subscription;
+  resultsSubscription: Subscription;
 
   public points: Points;
   public sports: Sport;
   public formObject = {};
   public resultArray = [];
   public results = [];
+  public resultsList = [];
 
   constructor(
     private decathlonService: DecathlonService
@@ -26,6 +28,7 @@ export class DecathlonComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.getSports();
+    this.getResults();
   }
 
   /*
@@ -38,6 +41,16 @@ export class DecathlonComponent implements OnInit, OnDestroy {
       });
   }
 
+  /*
+   * Get results
+   */
+  getResults() {
+    this.resultsSubscription = this.decathlonService.getResults().subscribe(
+      (data) => {
+        this.resultsList = data;
+      });
+  }
+
   onSubmit () {
     this.results.length = 0;
 
@@ -47,11 +60,11 @@ export class DecathlonComponent implements OnInit, OnDestroy {
       (data) => {
         this.points = data;
 
-        console.log(this.points);
-
         this.points.eventResultDto.forEach(eventResultDto => this.resultArray[eventResultDto.eventId] = eventResultDto.points);
       }
-    )
+    );
+
+    this.getResults();
   }
 
   // Erki Nool results for 8667 points!

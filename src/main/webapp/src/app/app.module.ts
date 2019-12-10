@@ -9,19 +9,20 @@ import { HttpClientModule } from "@angular/common/http";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {FormsModule} from "@angular/forms";
 import {MatTableModule} from "@angular/material/table";
+import {MatListModule} from "@angular/material/list";
 
 @NgModule({
   declarations: [
     AppComponent,
     DecathlonComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    MatFormFieldModule, MatButtonModule, MatInputModule,
-    HttpClientModule, MatGridListModule, FormsModule, MatTableModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        MatFormFieldModule, MatButtonModule, MatInputModule,
+        HttpClientModule, MatGridListModule, FormsModule, MatTableModule, MatListModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

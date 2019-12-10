@@ -20,6 +20,13 @@ export class DecathlonService {
   }
 
   /*
+   * Get results
+   */
+  getResults() {
+    return this.http.get<Points[]>(`${environment.apiEndpoint}/results`).pipe(map(response => response));
+  }
+
+  /*
    * Get filtered users
    */
   calculatePoints(results) {

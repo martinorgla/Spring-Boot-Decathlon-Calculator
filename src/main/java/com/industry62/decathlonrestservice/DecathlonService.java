@@ -7,6 +7,9 @@ import java.util.stream.Collectors;
 
 @Service
 public class DecathlonService {
+
+    private static Map<Integer, DecathlonResultDto> results = new HashMap<>();
+
     /*
      * Get sport parameters
      */
@@ -14,6 +17,10 @@ public class DecathlonService {
         return Arrays.stream(DecathlonEvent.values())
                 .map(decathlonEvent -> new SportDto(decathlonEvent.name(), decathlonEvent.getName()))
                 .collect(Collectors.toList());
+    }
+
+    public Collection<DecathlonResultDto> getResults() {
+        return results.values();
     }
 
     /*
@@ -24,7 +31,10 @@ public class DecathlonService {
             eventResult.setPoints(calculatePointsBySport(eventResult));
         }
 
-        return new DecathlonResultDto(eventResults);
+        DecathlonResultDto result = new DecathlonResultDto(eventResults);
+        results.put(result.getPoints(), result);
+
+        return result;
     }
 
     /*
