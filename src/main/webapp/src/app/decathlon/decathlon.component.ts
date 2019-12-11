@@ -63,8 +63,6 @@ export class DecathlonComponent implements OnInit, OnDestroy {
         this.points.eventResultDto.forEach(eventResultDto => this.resultArray[eventResultDto.eventId] = eventResultDto.points);
       }
     );
-
-    this.getResults();
   }
 
   // Erki Nool results for 8667 points!

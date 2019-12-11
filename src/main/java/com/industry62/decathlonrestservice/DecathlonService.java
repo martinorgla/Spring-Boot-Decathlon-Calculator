@@ -61,6 +61,10 @@ public class DecathlonService {
      * Formula A*(B–P)C;
      */
     private int calculateTrackPoints (DecathlonEvent decathlonEvent, EventResultDto eventResultDto) {
+        if (eventResultDto.getResult() == 0) {
+            return 0;
+        }
+
         return (int) (decathlonEvent.getA() * Math.pow(decathlonEvent.getB() - eventResultDto.getResult(), decathlonEvent.getC()));
     }
 
@@ -70,6 +74,10 @@ public class DecathlonService {
      * Formula A*(P–B)C;
      */
     private int calculateFieldPoints (DecathlonEvent decathlonEvent, EventResultDto eventResultDto) {
-       return (int) (decathlonEvent.getA()*Math.pow(eventResultDto.getResult()-decathlonEvent.getB(), decathlonEvent.getC()));
+        if (eventResultDto.getResult() == 0) {
+            return 0;
+        }
+
+        return (int) (decathlonEvent.getA()*Math.pow(eventResultDto.getResult()-decathlonEvent.getB(), decathlonEvent.getC()));
     }
 }
