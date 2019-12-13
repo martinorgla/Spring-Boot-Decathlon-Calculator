@@ -1,14 +1,26 @@
 package com.industry62.decathlonrestservice;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.jdbc.core.JdbcTemplate;
 
+import java.sql.PreparedStatement;
+import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static java.sql.Statement.RETURN_GENERATED_KEYS;
 
 @Service
 public class DecathlonService {
 
     private static Map<Integer, DecathlonResultDto> results = new HashMap<>();
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     /*
      * Get sport parameters
@@ -26,7 +38,7 @@ public class DecathlonService {
     /*
      * Calculate points
      */
-    public DecathlonResultDto calculatePoints (List<EventResultDto> eventResults) {
+    public DecathlonResultDto calculatePoints(List<EventResultDto> eventResults) {
         for (EventResultDto eventResult : eventResults) {
             eventResult.setPoints(calculatePointsBySport(eventResult));
         }
@@ -34,7 +46,35 @@ public class DecathlonService {
         DecathlonResultDto result = new DecathlonResultDto(eventResults);
         results.put(result.getPoints(), result);
 
+        this.logDecathlonResult(result);
+
         return result;
+    }
+
+    private void logDecathlonResult(DecathlonResultDto result) {
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        Timestamp timestamp = new Timestamp(new Date().getTime());
+
+        if (result.getPoints() > 0) {
+            jdbcTemplate.update(connection -> {
+                PreparedStatement ps = connection.prepareStatement("INSERT INTO result (points, date) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS);
+
+                ps.setInt(1, result.getPoints());
+                ps.setTimestamp(2, timestamp);
+
+                return ps;
+            }, keyHolder);
+
+            if (keyHolder.getKey().intValue() > 0) {
+                for (EventResultDto eventResult : result.getEventResultDto()) {
+                    this.logDecathlonEventResult(keyHolder.getKey().intValue(), eventResult);
+                }
+            }
+        }
+    }
+
+    private void logDecathlonEventResult (Integer result_id, EventResultDto result) {
+        jdbcTemplate.update("INSERT INTO event_result (result_id, eventId, result, points) VALUES (?, ?, ?, ?)", result_id, result.getEventId(), result.getResult(), result.getPoints());
     }
 
     /*
