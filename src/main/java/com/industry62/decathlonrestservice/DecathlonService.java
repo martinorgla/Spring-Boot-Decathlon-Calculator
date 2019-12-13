@@ -12,8 +12,6 @@ import java.sql.Timestamp;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static java.sql.Statement.RETURN_GENERATED_KEYS;
-
 @Service
 public class DecathlonService {
 
@@ -31,6 +29,9 @@ public class DecathlonService {
                 .collect(Collectors.toList());
     }
 
+    /*
+     * Get results
+     */
     public Collection<DecathlonResultDto> getResults() {
         return results.values();
     }
@@ -46,24 +47,17 @@ public class DecathlonService {
         DecathlonResultDto result = new DecathlonResultDto(eventResults);
         results.put(result.getPoints(), result);
 
-        this.logDecathlonResult(result);
+        this.logResult(result);
 
         return result;
     }
 
-    private void logDecathlonResult(DecathlonResultDto result) {
-        KeyHolder keyHolder = new GeneratedKeyHolder();
-        Timestamp timestamp = new Timestamp(new Date().getTime());
-
+    /*
+     * Log result
+     */
+    private void logResult(DecathlonResultDto result) {
         if (result.getPoints() > 0) {
-            jdbcTemplate.update(connection -> {
-                PreparedStatement ps = connection.prepareStatement("INSERT INTO result (points, date) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS);
-
-                ps.setInt(1, result.getPoints());
-                ps.setTimestamp(2, timestamp);
-
-                return ps;
-            }, keyHolder);
+            KeyHolder keyHolder = this.logDecathlonResult(result);
 
             if (keyHolder.getKey().intValue() > 0) {
                 for (EventResultDto eventResult : result.getEventResultDto()) {
@@ -73,8 +67,33 @@ public class DecathlonService {
         }
     }
 
+    /*
+     * Log decathlon result
+     */
+    private KeyHolder logDecathlonResult (DecathlonResultDto result) {
+        String INSERT_RESULT_SQL = "INSERT INTO result (points, date) VALUES (?, ?)";
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        Timestamp timestamp = new Timestamp(new Date().getTime());
+
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(INSERT_RESULT_SQL, Statement.RETURN_GENERATED_KEYS);
+
+            ps.setInt(1, result.getPoints());
+            ps.setTimestamp(2, timestamp);
+
+            return ps;
+        }, keyHolder);
+
+        return keyHolder;
+    }
+
+    /*
+     * Log decathlon event result
+     */
     private void logDecathlonEventResult (Integer result_id, EventResultDto result) {
-        jdbcTemplate.update("INSERT INTO event_result (result_id, eventId, result, points) VALUES (?, ?, ?, ?)", result_id, result.getEventId(), result.getResult(), result.getPoints());
+        String INSERT_RESULT_SQL = "INSERT INTO event_result (result_id, eventId, result, points) VALUES (?, ?, ?, ?)";
+
+        jdbcTemplate.update(INSERT_RESULT_SQL, result_id, result.getEventId(), result.getResult(), result.getPoints());
     }
 
     /*
