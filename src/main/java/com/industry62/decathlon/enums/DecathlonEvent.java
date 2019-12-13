@@ -1,4 +1,4 @@
-package com.industry62.decathlonrestservice;
+package com.industry62.decathlon.enums;
 
 public enum DecathlonEvent {
     M100("100 m (s)", 25.4347, 18.0, 1.81, SportType.TRACK),

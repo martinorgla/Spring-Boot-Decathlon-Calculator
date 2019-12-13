@@ -1,13 +1,13 @@
-package com.industry62.decathlonrestservice;
+package com.industry62.decathlon;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class DecathlonRestServiceApplication {
+public class DecathlonApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(DecathlonRestServiceApplication.class, args);
+        SpringApplication.run(DecathlonApplication.class, args);
     }
 
 }

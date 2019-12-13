@@ -1,4 +1,4 @@
-package com.industry62.decathlonrestservice;
+package com.industry62.decathlon.dto;
 
 public class SportDto {
     private String id;

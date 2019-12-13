@@ -1,10 +1,10 @@
-package com.industry62.decathlonrestservice;
+package com.industry62.decathlon;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class DecathlonRestServiceApplicationTests {
+class DecathlonApplicationTests {
 
     @Test
     void contextLoads() {

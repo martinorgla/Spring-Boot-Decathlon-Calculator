@@ -1,5 +1,9 @@
-package com.industry62.decathlonrestservice;
+package com.industry62.decathlon.controller;
 
+import com.industry62.decathlon.dto.DecathlonResultDto;
+import com.industry62.decathlon.dto.EventResultDto;
+import com.industry62.decathlon.dto.SportDto;
+import com.industry62.decathlon.service.DecathlonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +32,6 @@ public class DecathlonController {
     @CrossOrigin
     @PostMapping(path = "/calculatepoints")
     public DecathlonResultDto calculatePoints(@RequestBody List<EventResultDto> eventResults) {
-        return decathlonService.calculatePoints(eventResults);
+        return decathlonService.storeAndCalculatePoints(eventResults);
     }
 }

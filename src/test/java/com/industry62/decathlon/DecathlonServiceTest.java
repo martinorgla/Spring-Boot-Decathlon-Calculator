@@ -1,5 +1,8 @@
-package com.industry62.decathlonrestservice;
+package com.industry62.decathlon;
 
+import com.industry62.decathlon.dto.DecathlonResultDto;
+import com.industry62.decathlon.dto.EventResultDto;
+import com.industry62.decathlon.service.DecathlonService;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -29,7 +32,7 @@ public class DecathlonServiceTest {
         DecathlonResultDto decathlonResultDto = decathlonService.calculatePoints(eventResults);
 
         int points = decathlonResultDto
-                .getEventResultDto()
+                .getEventResults()
                 .stream()
                 .filter(event -> event.getEventId()
                         .equals("M100"))
@@ -46,7 +49,7 @@ public class DecathlonServiceTest {
         DecathlonResultDto decathlonResultDto = decathlonService.calculatePoints(eventResults);
 
         int points = decathlonResultDto
-                .getEventResultDto()
+                .getEventResults()
                 .stream()
                 .filter(event -> event.getEventId()
                         .equals("LONG_JUMP"))
@@ -63,7 +66,7 @@ public class DecathlonServiceTest {
         DecathlonResultDto decathlonResultDto = decathlonService.calculatePoints(eventResults);
 
         int points = decathlonResultDto
-                .getEventResultDto()
+                .getEventResults()
                 .stream()
                 .filter(event -> event.getEventId()
                         .equals("SHOT_PUT"))
@@ -80,7 +83,7 @@ public class DecathlonServiceTest {
         DecathlonResultDto decathlonResultDto = decathlonService.calculatePoints(eventResults);
 
         int points = decathlonResultDto
-                .getEventResultDto()
+                .getEventResults()
                 .stream()
                 .filter(event -> event.getEventId()
                         .equals("HIGH_JUMP"))
@@ -97,7 +100,7 @@ public class DecathlonServiceTest {
         DecathlonResultDto decathlonResultDto = decathlonService.calculatePoints(eventResults);
 
         int points = decathlonResultDto
-                .getEventResultDto()
+                .getEventResults()
                 .stream()
                 .filter(event -> event.getEventId()
                         .equals("M400"))
@@ -114,7 +117,7 @@ public class DecathlonServiceTest {
         DecathlonResultDto decathlonResultDto = decathlonService.calculatePoints(eventResults);
 
         int points = decathlonResultDto
-                .getEventResultDto()
+                .getEventResults()
                 .stream()
                 .filter(event -> event.getEventId()
                         .equals("M110_HURDLES"))
@@ -131,7 +134,7 @@ public class DecathlonServiceTest {
         DecathlonResultDto decathlonResultDto = decathlonService.calculatePoints(eventResults);
 
         int points = decathlonResultDto
-                .getEventResultDto()
+                .getEventResults()
                 .stream()
                 .filter(event -> event.getEventId()
                         .equals("DISCUS_THROW"))
@@ -148,7 +151,7 @@ public class DecathlonServiceTest {
         DecathlonResultDto decathlonResultDto = decathlonService.calculatePoints(eventResults);
 
         int points = decathlonResultDto
-                .getEventResultDto()
+                .getEventResults()
                 .stream()
                 .filter(event -> event.getEventId()
                         .equals("POLE_VAULT"))
@@ -165,7 +168,7 @@ public class DecathlonServiceTest {
         DecathlonResultDto decathlonResultDto = decathlonService.calculatePoints(eventResults);
 
         int points = decathlonResultDto
-                .getEventResultDto()
+                .getEventResults()
                 .stream()
                 .filter(event -> event.getEventId()
                         .equals("JAVELIN_THROW"))
@@ -182,7 +185,7 @@ public class DecathlonServiceTest {
         DecathlonResultDto decathlonResultDto = decathlonService.calculatePoints(eventResults);
 
         int points = decathlonResultDto
-                .getEventResultDto()
+                .getEventResults()
                 .stream()
                 .filter(event -> event.getEventId()
                         .equals("M1500"))
