@@ -60,7 +60,7 @@ export class DecathlonComponent implements OnInit, OnDestroy {
       (data) => {
         this.points = data;
 
-        this.points.eventResultDto.forEach(eventResultDto => this.resultArray[eventResultDto.eventId] = eventResultDto.points);
+        this.points.eventResults.forEach(eventResults => this.resultArray[eventResults.eventId] = eventResults.points);
       }
     );
   }

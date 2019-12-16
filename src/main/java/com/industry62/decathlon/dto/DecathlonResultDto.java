@@ -1,9 +1,5 @@
 package com.industry62.decathlon.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.industry62.decathlon.dto.EventResultDto;
-
 import java.util.List;
 
 //@JsonPropertyOrder({"points", "eventResults"})

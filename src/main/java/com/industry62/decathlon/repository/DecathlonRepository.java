@@ -1,6 +1,5 @@
 package com.industry62.decathlon.repository;
 
-import com.industry62.decathlon.EventResult;
 import com.industry62.decathlon.dto.DecathlonResultDto;
 import com.industry62.decathlon.dto.EventResultDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,10 +50,10 @@ public class DecathlonRepository {
         jdbcTemplate.update(INSERT_RESULT_SQL, result_id, result.getEventId(), result.getResult(), result.getPoints());
     }
 
-    private class EventResultRowMapper implements RowMapper<EventResult> {
+    private class EventResultRowMapper implements RowMapper<EventResultDto> {
         @Override
-        public EventResult mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new EventResult(rs.getInt("id"), rs.getString("eventId"), rs.getDouble("result"), rs.getInt("points"));
+        public EventResultDto mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return new EventResultDto(rs.getInt("id"), rs.getString("eventId"), rs.getDouble("result"), rs.getInt("points"));
         }
     }
 }
