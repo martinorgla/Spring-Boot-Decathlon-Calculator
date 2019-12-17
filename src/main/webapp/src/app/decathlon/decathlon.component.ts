@@ -13,14 +13,12 @@ import {Points} from "../models/points.model";
 export class DecathlonComponent implements OnInit, OnDestroy {
   sportSubscription: Subscription;
   calculatePointsSubscription: Subscription;
-  resultsSubscription: Subscription;
 
   public points: Points;
   public sports: Sport;
   public formObject = {};
   public resultArray = [];
   public results = [];
-  public resultsList = [];
 
   constructor(
     private decathlonService: DecathlonService
@@ -28,7 +26,6 @@ export class DecathlonComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.getSports();
-    this.getResults();
   }
 
   /*
@@ -38,16 +35,6 @@ export class DecathlonComponent implements OnInit, OnDestroy {
     this.sportSubscription = this.decathlonService.getSports().subscribe(
       (data) => {
        this.sports = data;
-      });
-  }
-
-  /*
-   * Get results
-   */
-  getResults() {
-    this.resultsSubscription = this.decathlonService.getResults().subscribe(
-      (data) => {
-        this.resultsList = data;
       });
   }
 

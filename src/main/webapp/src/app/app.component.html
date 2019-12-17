@@ -1,8 +1,19 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    {{ title }}
-  </h1>
-</div>
-<br />
+<mat-toolbar color="primary">
+  <span class="fill-remaining-space">
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu" [overlapTrigger]="false">
+      <button mat-menu-item routerLink="/">
+        <mat-icon>home</mat-icon>
+        <span>Calculator</span>
+      </button>
+      <button mat-menu-item routerLink="history">
+        <mat-icon>history</mat-icon>
+        <span>History</span>
+      </button>
+    </mat-menu>
+  </span>
+  <span class="fill-remaining-space">{{ title }}</span>
+</mat-toolbar>
 <router-outlet></router-outlet>

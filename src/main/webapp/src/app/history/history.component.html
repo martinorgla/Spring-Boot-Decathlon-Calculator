@@ -1,0 +1,9 @@
+<div *ngFor="let result of resultsList">
+  <ng-template [ngIf]="result.points > 0">
+    <p><strong>{{ result.id }}</strong>: {{ result.points }}</p>
+    <div *ngFor="let eventResult of result.eventResults">
+      - {{ eventResult.eventId }} - {{ eventResult.points }}
+    </div>
+  </ng-template>
+
+</div>
